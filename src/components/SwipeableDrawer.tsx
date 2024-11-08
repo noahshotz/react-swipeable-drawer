@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import { Drawer } from 'vaul';
+import { DefaultData } from './DrawerStates/DefaultData';
+import { ResultsData } from './DrawerStates/ResultsData';
 
 export const SwipeableDrawer: React.FC = () => {
 
@@ -32,20 +34,17 @@ export const SwipeableDrawer: React.FC = () => {
     const [showResults, setShowResults] = useState(false);
 
     const getResults = () => {
-        console.log('Results');
         // switch to the next snap point
-        setSnap('355px');
+        if (snap == 1) {
+            setSnap(1);
+        } else {
+            setSnap('355px');
+        }
         // set the state to show the results
         setShowResults(true);
     };
 
     const resetResults = () => {
-        console.log('Reset');
-        // switch to the initial snap point
-        if (initialViewRef.current) {
-            setSnap(`${initialViewRef.current?.offsetHeight + drawerHandleOffset}px`);
-        }
-        // set the state to hide the results
         setShowResults(false);
     }
 
@@ -90,29 +89,11 @@ export const SwipeableDrawer: React.FC = () => {
                                 </div>
                             </div>
                             {!showResults && (
-                                <div className="w-full flex items-center justify-center p-4 mb-4">
-                                    <h2 className="text-2xl font-medium text-zinc-50 tracking-tighter leading-none">No filters selected, showing no results.</h2>
-                                </div>
+                                <DefaultData />
                             )}
                             {showResults && (
-                                <div className="flex flex-col items-center justify-start gap-2 mb-10">
-                                    <div className="w-full bg-zinc-800 ring-1 ring-zinc-600 rounded-md p-4">
-                                        <h3 className="text-2xl font-medium text-zinc-50">This is a search result</h3>
-                                        <p className="text-zinc-200">This is a search result description containing data about a facility.</p>
-                                    </div>
-                                    <div className="w-full bg-zinc-800 ring-1 ring-zinc-600 rounded-md p-4">
-                                        <h3 className="text-2xl font-medium text-zinc-50">This is a search result</h3>
-                                        <p className="text-zinc-200">This is a search result description containing data about a facility.</p>
-                                    </div>
-                                </div>
+                                <ResultsData />
                             )}
-                            <div className="flex items-center justify-between">
-                                <button className="mb-4 w-full py-2 h-16 bg-zinc-950 text-zinc-200 ring-1 ring-zinc-800/50 bg-center rounded-lg">
-                                    <p className="font-medium text-center flex items-center justify-center gap-3 text-2xl">
-                                        Another Action
-                                    </p>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </Drawer.Content>
